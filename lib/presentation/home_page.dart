@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:icons_plus/icons_plus.dart';
 
+import '../api_service.dart'; // Import the ApiService class
+import '../models/upcoming_launches_data_model.dart'; // Import the data models where data is stored
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -12,7 +15,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0; // page/tab counter [3 PAGES IN TOTAL]
+  int _selectedIndex = 0; // Page/tab counter [3 PAGES IN TOTAL]
+  List<Launch> _launches = [];
+  bool _loading = false;
+  String _errorMessage = '';
+
+  //Create instance for accessing api services
+
+  final ApiService _apiService = ApiService();
+
+  /**
+   * This function is called when the user taps on launch and fetches data from data model
+   */
+
+  void _fetchLaunches() async {
+    setState(() {
+      _loading = true;
+      _errorMessage = '';
+    });
+
+    try {
+      final launchesResponse = await _apiService.fetchUpcomingLaunches();
+      setState(() {
+        _launches = launchesResponse.results;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    } finally {
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color(0xFF171717),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 40),
-        child: GNav( // USING GOOGLE'S NAV BAR (check pubspec for library)
+        child: GNav(
           activeColor: Colors.black,
           rippleColor: Colors.grey,
           hoverColor: const Color(0xFF9E86FF),
@@ -31,19 +67,19 @@ class _HomePageState extends State<HomePage> {
           tabBackgroundColor: const Color(0x799E86FF),
           color: Colors.white,
           textStyle: const TextStyle(
-              color: Color(0xFF9E86FF),
-              fontWeight: FontWeight.w700,
-              letterSpacing: -1,
-            fontSize: 15
+            color: Color(0xFF9E86FF),
+            fontWeight: FontWeight.w700,
+            letterSpacing: -1,
+            fontSize: 15,
           ),
-          tabs: const [ // all the pages and tabs we will be using
+          tabs: const [
             GButton(
               icon: Icons.rocket_launch,
               iconActiveColor: Color(0xFF9E86FF),
               text: 'Recents',
             ),
             GButton(
-              icon: CupertinoIcons.chat_bubble_2,
+              icon: Icons.chat_bubble,
               iconActiveColor: Color(0xFF9E86FF),
               text: 'SpaceBot',
             ),
@@ -61,11 +97,48 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: const Column(
-        ),
-      ),
+      body: _selectedIndex == 0
+          ? Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.09),
+                  ElevatedButton(
+                    onPressed: _fetchLaunches,
+                    child: Text('Fetch Upcoming Launches'),
+                  ),
+                  if (_loading)
+                    CircularProgressIndicator()
+                  else if (_errorMessage.isNotEmpty)
+                    Text('Error: $_errorMessage',
+                        style: TextStyle(color: Colors.red))
+                  else
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: _launches.length,
+                        itemBuilder: (context, index) {
+                          final launch = _launches[index];
+                          return ListTile(
+                            title: Text(
+                              launch.name,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              'Launch Time: ${launch.windowStart}\n'
+                              'Status: ${launch.status.name}\n'
+                              'Rocket: ${launch.rocket.configuration.name}\n'
+                              'Mission: ${launch.mission.name}\n'
+                              'Agency: ${launch.mission.agencies.isNotEmpty ? launch.mission.agencies[0].name : 'No Agency Name'}',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                ],
+              ),
+            )
+          : Container(),
     );
   }
 }
