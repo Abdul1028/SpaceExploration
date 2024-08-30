@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; // page/tab counter [3 PAGES IN TOTAL]
 
   @override
   Widget build(BuildContext context) {
