@@ -109,40 +109,50 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: _selectedIndex == 0
-          ? Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.09),
-                  ElevatedButton(
-                    onPressed: _fetchLaunches,
-                    child: const Text('Fetch Upcoming Launches'),
-                  ),
-                  if (_loading)
-                    const CircularProgressIndicator()
-                  else if (_errorMessage.isNotEmpty)
-                    Text('Error: $_errorMessage',
-                        style: const TextStyle(color: Colors.red))
-                  else
-                    Expanded(
-                    //   child: PageView.builder(
-                    //     itemCount: _launches.length,
-                    //     itemBuilder: (context, index) {
-                    //       return _launchComponent(_launches[index], context);
-                    //     },
-                    //   ),
-                      child: ListView.builder(
-                        itemCount: _launches.length,
-                        itemBuilder: (context, index) {
-                          final launch = _launches[index];
-                          return _launchComponent(launch, context);
-                        },
-                      ),
-                    ),
-                ],
+          ? Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+
+              Container(
+                color: Color(0xFF262626),
+                padding: EdgeInsets.only(top: 65, left: 25, right: 25, bottom: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("app_name", style: GoogleFonts.bebasNeue(fontSize: 26, color: Colors.white)),
+                    Icon(CupertinoIcons.info, color: Colors.white, size: 25,)
+                  ],
+                ),
               ),
-            )
+              // SizedBox(height: MediaQuery.of(context).size.height * 0.09),
+              // ElevatedButton(
+              //   onPressed: _fetchLaunches,
+              //   child: const Text('Fetch Upcoming Launches'),
+              // ),
+              if (_loading)
+                const CircularProgressIndicator()
+              else if (_errorMessage.isNotEmpty)
+                Text('Error: $_errorMessage',
+                    style: const TextStyle(color: Colors.red))
+              else
+                Expanded(
+                //   child: PageView.builder(
+                //     itemCount: _launches.length,
+                //     itemBuilder: (context, index) {
+                //       return _launchComponent(_launches[index], context);
+                //     },
+                //   ),
+                  child: ListView.builder(
+                    itemCount: _launches.length,
+                    itemBuilder: (context, index) {
+                      final launch = _launches[index];
+                      return _launchComponent(launch, context);
+                    },
+                  ),
+                ),
+            ],
+          )
           : Container(),
     );
   }
@@ -152,38 +162,39 @@ Widget _launchComponent(data, context) {
 
   TextStyle headerStyle = GoogleFonts.anton(
       color: Colors.white,
-      fontSize: 18,
+      fontSize: 19,
       // letterSpacing: -0.7,
       fontWeight: FontWeight.w500,
   );
 
-  TextStyle normalStyle = const TextStyle(
+  TextStyle normalStyle = GoogleFonts.poppins(
       color: Colors.grey,
       fontSize: 14,
       letterSpacing: -0.3,
       fontWeight: FontWeight.w500
   );
 
-  TextStyle descStyle = const TextStyle(
+  TextStyle descStyle = GoogleFonts.poppins(
       color: Colors.blueGrey,
-      fontSize: 13,
+      fontSize: 14,
       letterSpacing: -0.7,
-      fontWeight: FontWeight.w500
+      fontWeight: FontWeight.w600
   );
 
   String mainName = data.name;
-  String launchWindow = data.windowStart;
+  String launchWindow = data.windowStart.substring(0, 10);
   String status = data.status.name;
   String rocketName = data.rocket.configuration.name;
   String mission = data.mission.name;
   String agency = data.mission.agencies.isNotEmpty ? data.mission.agencies[0].name : 'No Agency Name';
 
   return Container(
+    margin: EdgeInsets.symmetric(horizontal: 12),
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     child: Container(
-      padding: const EdgeInsets.only(left: 14, right: 14, top: 14, bottom: 20),
+      padding: const EdgeInsets.only(left: 14, right: 14, top: 14, bottom: 18),
       clipBehavior: Clip.hardEdge,
-      width: MediaQuery.of(context).size.width*0.94,
+      width: MediaQuery.of(context).size.width*0.84,
       decoration: ShapeDecoration(
         color: const Color(0xFF1E1E1E),
         shape: SmoothRectangleBorder(
@@ -217,9 +228,10 @@ Widget _launchComponent(data, context) {
           ),
           const SizedBox(height: 13),
           Text(mainName, style: headerStyle),
+          const SizedBox(height: 5),
           Text(launchWindow, style: normalStyle),
           Text(status, style: normalStyle),
-          Text(mission, style: normalStyle)
+          Text("${agency} - ${mission}", style: descStyle)
         ],
       ),
     ),
