@@ -1,6 +1,8 @@
 import 'package:feather_icons/feather_icons.dart';
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -36,6 +38,7 @@ class _HomePageState extends State<HomePage> {
 
     try {
       final launchesResponse = await _apiService.fetchUpcomingLaunches();
+
       setState(() {
         _launches = launchesResponse.results;
       });
@@ -60,13 +63,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF171717),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 40),
+      bottomNavigationBar: Container(
+        color: const Color(0xFF262626),
+        padding: const EdgeInsets.only(top: 18, left: 30, right: 30, bottom: 29),
         child: GNav(
+          // backgroundColor: Colors.red,
           activeColor: Colors.black,
           rippleColor: Colors.grey,
           hoverColor: const Color(0xFF9E86FF),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 15),
           gap: 6,
           iconSize: 22,
           duration: const Duration(milliseconds: 400),
@@ -121,24 +126,17 @@ class _HomePageState extends State<HomePage> {
                         style: const TextStyle(color: Colors.red))
                   else
                     Expanded(
+                    //   child: PageView.builder(
+                    //     itemCount: _launches.length,
+                    //     itemBuilder: (context, index) {
+                    //       return _launchComponent(_launches[index], context);
+                    //     },
+                    //   ),
                       child: ListView.builder(
                         itemCount: _launches.length,
                         itemBuilder: (context, index) {
                           final launch = _launches[index];
-                          return ListTile(
-                            title: Text(
-                              launch.name,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            subtitle: Text(
-                              'Launch Time: ${launch.windowStart}\n'
-                              'Status: ${launch.status.name}\n'
-                              'Rocket: ${launch.rocket.configuration.name}\n'
-                              'Mission: ${launch.mission.name}\n'
-                              'Agency: ${launch.mission.agencies.isNotEmpty ? launch.mission.agencies[0].name : 'No Agency Name'}',
-                              style: const TextStyle(color: Colors.grey),
-                            ),
-                          );
+                          return _launchComponent(launch, context);
                         },
                       ),
                     ),
@@ -148,4 +146,79 @@ class _HomePageState extends State<HomePage> {
           : Container(),
     );
   }
+}
+
+Widget _launchComponent(data, context) {
+
+  TextStyle headerStyle = GoogleFonts.anton(
+      color: Colors.white,
+      fontSize: 18,
+      // letterSpacing: -0.7,
+      fontWeight: FontWeight.w500,
+  );
+
+  TextStyle normalStyle = const TextStyle(
+      color: Colors.grey,
+      fontSize: 14,
+      letterSpacing: -0.3,
+      fontWeight: FontWeight.w500
+  );
+
+  TextStyle descStyle = const TextStyle(
+      color: Colors.blueGrey,
+      fontSize: 13,
+      letterSpacing: -0.7,
+      fontWeight: FontWeight.w500
+  );
+
+  String mainName = data.name;
+  String launchWindow = data.windowStart;
+  String status = data.status.name;
+  String rocketName = data.rocket.configuration.name;
+  String mission = data.mission.name;
+  String agency = data.mission.agencies.isNotEmpty ? data.mission.agencies[0].name : 'No Agency Name';
+
+  return Container(
+    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+    child: Container(
+      padding: const EdgeInsets.only(left: 14, right: 14, top: 14, bottom: 20),
+      clipBehavior: Clip.hardEdge,
+      width: MediaQuery.of(context).size.width*0.94,
+      decoration: ShapeDecoration(
+        color: const Color(0xFF1E1E1E),
+        shape: SmoothRectangleBorder(
+          borderRadius: SmoothBorderRadius(
+            cornerRadius: 17,
+            cornerSmoothing: 0.9,
+          ),
+        ),
+      ),
+      // height: 200,
+      // color: Colors.red,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 200,
+            // width: MediaQuery.of(context).size.width*0.94,
+            decoration: ShapeDecoration(
+              color: const Color(0xFF1E1E1E),
+              image: const DecorationImage(
+                fit: BoxFit.fitWidth,
+                image: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREA8-Gg9ri_kWF_xXDEd3boW5OBx7w_0-kNrpUfJy_cHS_oE3XvhpmhDqOvSdyOQ5sYXA&usqp=CAU")
+              ),
+              shape: SmoothRectangleBorder(
+                borderRadius: SmoothBorderRadius(
+                  cornerRadius: 13,
+                  cornerSmoothing: 0.9,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(mainName, style: headerStyle)
+        ],
+      ),
+    ),
+  );
 }
