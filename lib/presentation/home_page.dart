@@ -199,13 +199,13 @@ Widget _launchComponent(data, context) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 200,
+            height: 160,
             // width: MediaQuery.of(context).size.width*0.94,
             decoration: ShapeDecoration(
               color: const Color(0xFF1E1E1E),
-              image: const DecorationImage(
+              image: DecorationImage(
                 fit: BoxFit.fitWidth,
-                image: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREA8-Gg9ri_kWF_xXDEd3boW5OBx7w_0-kNrpUfJy_cHS_oE3XvhpmhDqOvSdyOQ5sYXA&usqp=CAU")
+                image: NetworkImage(data.imageUrl)
               ),
               shape: SmoothRectangleBorder(
                 borderRadius: SmoothBorderRadius(
@@ -215,8 +215,11 @@ Widget _launchComponent(data, context) {
               ),
             ),
           ),
-          const SizedBox(height: 10),
-          Text(mainName, style: headerStyle)
+          const SizedBox(height: 13),
+          Text(mainName, style: headerStyle),
+          Text(launchWindow, style: normalStyle),
+          Text(status, style: normalStyle),
+          Text(mission, style: normalStyle)
         ],
       ),
     ),
