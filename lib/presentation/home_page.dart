@@ -51,6 +51,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _fetchLaunches();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF171717),
@@ -101,17 +107,18 @@ class _HomePageState extends State<HomePage> {
           ? Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.09),
                   ElevatedButton(
                     onPressed: _fetchLaunches,
-                    child: Text('Fetch Upcoming Launches'),
+                    child: const Text('Fetch Upcoming Launches'),
                   ),
                   if (_loading)
-                    CircularProgressIndicator()
+                    const CircularProgressIndicator()
                   else if (_errorMessage.isNotEmpty)
                     Text('Error: $_errorMessage',
-                        style: TextStyle(color: Colors.red))
+                        style: const TextStyle(color: Colors.red))
                   else
                     Expanded(
                       child: ListView.builder(
@@ -121,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                           return ListTile(
                             title: Text(
                               launch.name,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                             subtitle: Text(
                               'Launch Time: ${launch.windowStart}\n'
@@ -129,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                               'Rocket: ${launch.rocket.configuration.name}\n'
                               'Mission: ${launch.mission.name}\n'
                               'Agency: ${launch.mission.agencies.isNotEmpty ? launch.mission.agencies[0].name : 'No Agency Name'}',
-                              style: TextStyle(color: Colors.grey),
+                              style: const TextStyle(color: Colors.grey),
                             ),
                           );
                         },
