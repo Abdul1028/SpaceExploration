@@ -75,6 +75,7 @@ class Launch {
   final LaunchStatus status;
   final Rocket rocket;
   final Mission mission;
+  final String imageUrl;
 
   Launch({
     required this.name,
@@ -82,6 +83,7 @@ class Launch {
     required this.status,
     required this.rocket,
     required this.mission,
+    required this.imageUrl,
   });
 
   factory Launch.fromJson(Map<String, dynamic> json) {
@@ -91,6 +93,7 @@ class Launch {
       status: LaunchStatus.fromJson(json['status']),
       rocket: Rocket.fromJson(json['rocket']),
       mission: Mission.fromJson(json['mission']),
+      imageUrl: json['image'],
     );
   }
 }
