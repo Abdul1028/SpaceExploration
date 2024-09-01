@@ -9,6 +9,8 @@ import 'package:icons_plus/icons_plus.dart';
 import '../api_service.dart'; // Import the ApiService class
 import '../models/upcoming_launches_data_model.dart'; // Import the data models where data is stored
 
+import 'package:lottie/lottie.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -220,11 +222,25 @@ class _HomePageState extends State<HomePage> {
                                 );
                               });
                         },
-                        child: const Icon(
-                          CupertinoIcons.sparkles,
-                          color: Color(0xFF9E86FF),
-                          size: 25,
-                        ),
+
+                        //OLD gemini icon
+
+                        // child: const Icon(
+                        //   CupertinoIcons.sparkles,
+                        //   color: Color(0xFF9E86FF),
+                        //   size: 25,
+                        // ),
+
+                        //Replaced lottie icon
+                        //TODO: Please center this element
+
+                        child: Lottie.network(
+                            'https://lottie.host/98fbd742-394d-4f59-94ef-c905225922e1/S7okcKKw6m.json',
+                            width: 50,
+                            height: 30,
+                            fit: BoxFit.cover,
+                            animate: true,
+                            alignment: Alignment.topRight),
                       )
                     ],
                   ),
