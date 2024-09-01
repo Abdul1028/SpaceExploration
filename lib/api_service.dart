@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:nasa_api_hello_world/models/news_model.dart';
 import 'models/upcoming_launches_data_model.dart';
+import 'models/apod_model.dart';
 
 //Calling API and storing data in data models
 
@@ -37,6 +39,21 @@ class ApiService {
           date: res.data["date"],
         );
         return modelAPOD;
+      } else {
+        throw Exception('Unable to load AIOD: ${res.statusCode}');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<NewsResponse> fetchNews() async {
+    try {
+      final res = await _dio.get(
+          'https://api.nasa.gov/planetary/apod?api_key=ENhcn49EHMwPfDPoX3vNc6ntmBAruQdDL8iq58Fc');
+
+      if (res.statusCode == 200) {
+        return NewsResponse.fromJson(res.data);
       } else {
         throw Exception('Unable to load AIOD: ${res.statusCode}');
       }
