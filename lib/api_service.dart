@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:nasa_api_hello_world/models/news_model.dart';
 import 'models/upcoming_launches_data_model.dart';
 import 'models/apod_model.dart';
@@ -50,7 +51,7 @@ class ApiService {
   Future<NewsResponse> fetchNews() async {
     try {
       final res = await _dio.get(
-          'https://api.nasa.gov/planetary/apod?api_key=ENhcn49EHMwPfDPoX3vNc6ntmBAruQdDL8iq58Fc');
+          'https://api.spaceflightnewsapi.net/v4/articles/?format=json');
 
       if (res.statusCode == 200) {
         return NewsResponse.fromJson(res.data);
