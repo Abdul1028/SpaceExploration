@@ -24,10 +24,16 @@ class ApiService {
   Future<APOD> fetchImageOfTheDay() async {
     APOD modelAPOD;
     try {
-      final res = await _dio.get('https://api.nasa.gov/planetary/apod?api_key=ENhcn49EHMwPfDPoX3vNc6ntmBAruQdDL8iq58Fc');
+      final res = await _dio.get(
+          'https://api.nasa.gov/planetary/apod?api_key=ENhcn49EHMwPfDPoX3vNc6ntmBAruQdDL8iq58Fc');
 
       if (res.statusCode == 200) {
-        modelAPOD = APOD(name: res.data["title"], description: res.data["explanation"], imageURL: res.data["url"], date: res.data["date"]);
+        modelAPOD = APOD(
+          name: res.data["title"],
+          description: res.data["explanation"],
+          imageURL: res.data["url"],
+          date: res.data["date"],
+        );
         return modelAPOD;
       } else {
         throw Exception('Unable to load AIOD: ${res.statusCode}');

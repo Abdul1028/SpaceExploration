@@ -88,11 +88,10 @@ class _HomePageState extends State<HomePage> {
           tabs: [
             GButton(
               textStyle: GoogleFonts.poppins(
-                color: const Color(0xFF9E86FF),
-                fontWeight: FontWeight.w600,
-                letterSpacing: -0.5,
-                fontSize: 15
-              ),
+                  color: const Color(0xFF9E86FF),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: -0.5,
+                  fontSize: 15),
               icon: Icons.rocket_launch_outlined,
               iconActiveColor: const Color(0xFF9E86FF),
               text: 'Recents',
@@ -105,8 +104,7 @@ class _HomePageState extends State<HomePage> {
                   color: const Color(0xFF9E86FF),
                   fontWeight: FontWeight.w600,
                   letterSpacing: -0.5,
-                  fontSize: 15
-              ),
+                  fontSize: 15),
             ),
             GButton(
               icon: Icons.article_outlined,
@@ -116,8 +114,7 @@ class _HomePageState extends State<HomePage> {
                   color: const Color(0xFF9E86FF),
                   fontWeight: FontWeight.w600,
                   letterSpacing: -0.5,
-                  fontSize: 15
-              ),
+                  fontSize: 15),
             ),
           ],
           selectedIndex: _selectedIndex,
@@ -134,8 +131,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Container(
                   color: const Color(0xFF262626),
-                  padding:
-                      const EdgeInsets.only(top: 65, left: 25, right: 25, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      top: 65, left: 25, right: 25, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,48 +155,72 @@ class _HomePageState extends State<HomePage> {
                                   child: Column(
                                     children: [
                                       const Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 24),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 20.0, horizontal: 24),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
-                                            Text("Astronomical Pic of the Day", style: TextStyle(color: Colors.grey, fontSize: 20, letterSpacing: -1, fontWeight: FontWeight.w600)),
-                                            Icon(CupertinoIcons.multiply_circle_fill, size: 27, color: Color(0xFF333333),)
+                                            Text("Astronomical Pic of the Day",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 20,
+                                                    letterSpacing: -1,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            Icon(
+                                              CupertinoIcons
+                                                  .multiply_circle_fill,
+                                              size: 27,
+                                              color: Color(0xFF333333),
+                                            )
                                           ],
                                         ),
                                       ),
                                       FutureBuilder(
-                                          future: _apiService.fetchImageOfTheDay(),
-                                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                          future:
+                                              _apiService.fetchImageOfTheDay(),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<dynamic> snapshot) {
                                             // print("here - ${snapshot.data.name}");
-                                            return Container(
-                                              // color: Colors.black87,
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    height: 200,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(image: NetworkImage(snapshot.data.imageURL), fit: BoxFit.contain)
-                                                    ),
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
+                                            return Column(
+                                              children: [
+                                                Container(
+                                                  height: 200,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              snapshot.data
+                                                                  .imageURL),
+                                                          fit: BoxFit
+                                                              .contain)),
+                                                ),
+                                                Text(
+                                                  snapshot.data.name,
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.w500,
+                                                    letterSpacing: -0.4,
+                                                    fontSize: 13,
                                                   ),
-                                                  Text(snapshot.data.name,
-                                                    style: const TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.w500,
-                                                      letterSpacing: -0.4,
-                                                      fontSize: 13,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             );
-                                          }
-                                      ),
+                                          }),
                                     ],
                                   ),
                                 );
-                              }
-                          );
+                              });
                         },
                         child: const Icon(
                           CupertinoIcons.sparkles,
