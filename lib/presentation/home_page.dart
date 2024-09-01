@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:nasa_api_hello_world/models/apod_model.dart';
+import '../pages/SpaceBotPage.dart';
 
 import '../api_service.dart'; // Import the ApiService class
 import '../models/upcoming_launches_data_model.dart'; // Import the data models where data is stored
@@ -65,208 +66,209 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF171717),
-      bottomNavigationBar: Container(
-        color: const Color(0xFF262626),
-        padding:
-            const EdgeInsets.only(top: 18, left: 30, right: 30, bottom: 29),
-        child: GNav(
-          // backgroundColor: Colors.red,
-          activeColor: Colors.black,
-          rippleColor: Colors.grey,
-          hoverColor: const Color(0xFF9E86FF),
+        backgroundColor: const Color(0xFF171717),
+        bottomNavigationBar: Container(
+          color: const Color(0xFF262626),
           padding:
-              const EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 15),
-          gap: 6,
-          iconSize: 22,
-          duration: const Duration(milliseconds: 400),
-          tabBackgroundColor: const Color(0x799E86FF),
-          color: Colors.white,
-          textStyle: const TextStyle(
-            color: Color(0xFF9E86FF),
-            fontWeight: FontWeight.w700,
-            letterSpacing: -1,
-            fontSize: 15,
+              const EdgeInsets.only(top: 18, left: 30, right: 30, bottom: 29),
+          child: GNav(
+            // backgroundColor: Colors.red,
+            activeColor: Colors.black,
+            rippleColor: Colors.grey,
+            hoverColor: const Color(0xFF9E86FF),
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 15),
+            gap: 6,
+            iconSize: 22,
+            duration: const Duration(milliseconds: 400),
+            tabBackgroundColor: const Color(0x799E86FF),
+            color: Colors.white,
+            textStyle: const TextStyle(
+              color: Color(0xFF9E86FF),
+              fontWeight: FontWeight.w700,
+              letterSpacing: -1,
+              fontSize: 15,
+            ),
+            tabs: [
+              GButton(
+                textStyle: GoogleFonts.poppins(
+                    color: const Color(0xFF9E86FF),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.5,
+                    fontSize: 15),
+                icon: Icons.rocket_launch_outlined,
+                iconActiveColor: const Color(0xFF9E86FF),
+                text: 'Recents',
+              ),
+              GButton(
+                icon: CupertinoIcons.chat_bubble_2,
+                iconActiveColor: const Color(0xFF9E86FF),
+                text: 'SpaceBot',
+                textStyle: GoogleFonts.poppins(
+                    color: const Color(0xFF9E86FF),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.5,
+                    fontSize: 15),
+              ),
+              GButton(
+                icon: Icons.article_outlined,
+                iconActiveColor: const Color(0xFF9E86FF),
+                text: 'News',
+                textStyle: GoogleFonts.poppins(
+                    color: const Color(0xFF9E86FF),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.5,
+                    fontSize: 15),
+              ),
+            ],
+            selectedIndex: _selectedIndex,
+            onTabChange: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
           ),
-          tabs: [
-            GButton(
-              textStyle: GoogleFonts.poppins(
-                  color: const Color(0xFF9E86FF),
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -0.5,
-                  fontSize: 15),
-              icon: Icons.rocket_launch_outlined,
-              iconActiveColor: const Color(0xFF9E86FF),
-              text: 'Recents',
-            ),
-            GButton(
-              icon: CupertinoIcons.chat_bubble_2,
-              iconActiveColor: const Color(0xFF9E86FF),
-              text: 'SpaceBot',
-              textStyle: GoogleFonts.poppins(
-                  color: const Color(0xFF9E86FF),
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -0.5,
-                  fontSize: 15),
-            ),
-            GButton(
-              icon: Icons.article_outlined,
-              iconActiveColor: const Color(0xFF9E86FF),
-              text: 'News',
-              textStyle: GoogleFonts.poppins(
-                  color: const Color(0xFF9E86FF),
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -0.5,
-                  fontSize: 15),
-            ),
-          ],
-          selectedIndex: _selectedIndex,
-          onTabChange: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
         ),
-      ),
-      body: _selectedIndex == 0
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  color: const Color(0xFF262626),
-                  padding: const EdgeInsets.only(
-                      top: 65, left: 25, right: 25, bottom: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("app_name",
-                          style: GoogleFonts.bebasNeue(
-                              fontSize: 26, color: Colors.white)),
-                      GestureDetector(
-                        onTap: () {
-                          print(_apiService.fetchImageOfTheDay());
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(18.2),
-                                    color: const Color(0xFF191919),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 20.0, horizontal: 24),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const Text(
-                                                "Astronomical Pic of the Day",
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 20,
-                                                    letterSpacing: -1,
-                                                    fontWeight:
-                                                        FontWeight.w600)),
-                                            GestureDetector(
-                                                onTap: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Icon(
-                                                  CupertinoIcons
-                                                      .multiply_circle_fill,
-                                                  size: 27,
-                                                  color: Color(0xFF333333),
-                                                )),
-                                          ],
+        body: _selectedIndex == 0
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    color: const Color(0xFF262626),
+                    padding: const EdgeInsets.only(
+                        top: 65, left: 25, right: 25, bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("app_name",
+                            style: GoogleFonts.bebasNeue(
+                                fontSize: 26, color: Colors.white)),
+                        GestureDetector(
+                          onTap: () {
+                            print(_apiService.fetchImageOfTheDay());
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(18.2),
+                                      color: const Color(0xFF191919),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 20.0, horizontal: 24),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              const Text(
+                                                  "Astronomical Pic of the Day",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 20,
+                                                      letterSpacing: -1,
+                                                      fontWeight:
+                                                          FontWeight.w600)),
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Icon(
+                                                    CupertinoIcons
+                                                        .multiply_circle_fill,
+                                                    size: 27,
+                                                    color: Color(0xFF333333),
+                                                  )),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      FutureBuilder<APOD>(
-                                          future:
-                                              _apiService.fetchImageOfTheDay(),
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot<dynamic> snapshot) {
-                                            // print("here - ${snapshot.data.name}");
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
+                                        FutureBuilder<APOD>(
+                                            future: _apiService
+                                                .fetchImageOfTheDay(),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<dynamic>
+                                                    snapshot) {
+                                              // print("here - ${snapshot.data.name}");
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              }
+                                              return Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 200,
+                                                    child: Image.network(
+                                                      snapshot.data.imageURL,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    snapshot.data.name,
+                                                    style: const TextStyle(
+                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      letterSpacing: -0.4,
+                                                      fontSize: 13,
+                                                    ),
+                                                  ),
+                                                ],
                                               );
-                                            }
-                                            return Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 200,
-                                                  child: Image.network(
-                                                    snapshot.data.imageURL,
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  snapshot.data.name,
-                                                  style: const TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w500,
-                                                    letterSpacing: -0.4,
-                                                    fontSize: 13,
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          }),
-                                    ],
-                                  ),
-                                );
-                              });
-                        },
+                                            }),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          },
 
-                        //OLD gemini icon
+                          //OLD gemini icon
 
-                        // child: const Icon(
-                        //   CupertinoIcons.sparkles,
-                        //   color: Color(0xFF9E86FF),
-                        //   size: 25,
-                        // ),
+                          // child: const Icon(
+                          //   CupertinoIcons.sparkles,
+                          //   color: Color(0xFF9E86FF),
+                          //   size: 25,
+                          // ),
 
-                        child: Lottie.asset('assets/apod-button.json',
-                            height: 45,
-                            fit: BoxFit.cover,
-                            animate: true,
-                            alignment: Alignment.topRight),
-                      )
-                    ],
-                  ),
-                ),
-                if (_loading)
-                  const CircularProgressIndicator()
-                else if (_errorMessage.isNotEmpty)
-                  Text('Error: $_errorMessage',
-                      style: const TextStyle(color: Colors.red))
-                else
-                  Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        _fetchLaunches();
-                      },
-                      child: ListView.builder(
-                        itemCount: _launches.length,
-                        itemBuilder: (context, index) {
-                          final launch = _launches[index];
-                          return _launchComponent(launch, context);
-                        },
-                      ),
+                          child: Lottie.asset('assets/apod-button.json',
+                              height: 45,
+                              fit: BoxFit.cover,
+                              animate: true,
+                              alignment: Alignment.topRight),
+                        )
+                      ],
                     ),
                   ),
-              ],
-            )
-          : Container(),
-    );
+                  if (_loading)
+                    const CircularProgressIndicator()
+                  else if (_errorMessage.isNotEmpty)
+                    Text('Error: $_errorMessage',
+                        style: const TextStyle(color: Colors.red))
+                  else
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          _fetchLaunches();
+                        },
+                        child: ListView.builder(
+                          itemCount: _launches.length,
+                          itemBuilder: (context, index) {
+                            final launch = _launches[index];
+                            return _launchComponent(launch, context);
+                          },
+                        ),
+                      ),
+                    ),
+                ],
+              )
+            : const SpaceBotPage());
   }
 }
 
