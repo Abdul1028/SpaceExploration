@@ -146,7 +146,6 @@ class _HomePageState extends State<HomePage> {
                       GestureDetector(
                         onTap: () {
                           print(_apiService.fetchImageOfTheDay());
-
                           showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -157,8 +156,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   child: Column(
                                     children: [
-                                      const Padding(
-                                        padding: EdgeInsets.symmetric(
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 20.0, horizontal: 24),
                                         child: Row(
                                           mainAxisAlignment:
@@ -166,19 +165,24 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Text("Astronomical Pic of the Day",
+                                            const Text(
+                                                "Astronomical Pic of the Day",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: 20,
                                                     letterSpacing: -1,
                                                     fontWeight:
                                                         FontWeight.w600)),
-                                            Icon(
-                                              CupertinoIcons
-                                                  .multiply_circle_fill,
-                                              size: 27,
-                                              color: Color(0xFF333333),
-                                            )
+                                            // GestureDetector(
+                                            //     onTap: () {
+                                            //       Navigator.pop(context);
+                                            //     },
+                                            //     child: Icon(
+                                            //       CupertinoIcons
+                                            //           .multiply_circle_fill,
+                                            //       size: 27,
+                                            //       color: Color(0xFF333333),
+                                            //     )),
                                           ],
                                         ),
                                       ),
@@ -230,12 +234,8 @@ class _HomePageState extends State<HomePage> {
                         //   size: 25,
                         // ),
 
-                        //Replaced lottie icon
-                        //TODO: Please center this element
-
-                        child: Lottie.network(
-                            'https://lottie.host/98fbd742-394d-4f59-94ef-c905225922e1/S7okcKKw6m.json',
-                            height: 35,
+                        child: Lottie.asset('assets/apod-button.json',
+                            height: 45,
                             fit: BoxFit.cover,
                             animate: true,
                             alignment: Alignment.topRight),
