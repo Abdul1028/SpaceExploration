@@ -6,7 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:nasa_api_hello_world/models/apod_model.dart';
+import 'package:nasa_api_hello_world/pages/NewsPage.dart';
 import '../pages/SpaceBotPage.dart';
+import '../pages/NewsPage.dart';
 
 import '../api_service.dart'; // Import the ApiService class
 import '../models/upcoming_launches_data_model.dart'; // Import the data models where data is stored
@@ -268,7 +270,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                 ],
               )
-            : const SpaceBotPage());
+            : _selectedIndex == 1
+                ? SpaceBotPage()
+                : NewsPage());
   }
 }
 
