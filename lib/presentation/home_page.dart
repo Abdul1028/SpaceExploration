@@ -173,16 +173,16 @@ class _HomePageState extends State<HomePage> {
                                                     letterSpacing: -1,
                                                     fontWeight:
                                                         FontWeight.w600)),
-                                            // GestureDetector(
-                                            //     onTap: () {
-                                            //       Navigator.pop(context);
-                                            //     },
-                                            //     child: Icon(
-                                            //       CupertinoIcons
-                                            //           .multiply_circle_fill,
-                                            //       size: 27,
-                                            //       color: Color(0xFF333333),
-                                            //     )),
+                                            GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Icon(
+                                                  CupertinoIcons
+                                                      .multiply_circle_fill,
+                                                  size: 27,
+                                                  color: Color(0xFF333333),
+                                                )),
                                           ],
                                         ),
                                       ),
