@@ -85,21 +85,39 @@ class _HomePageState extends State<HomePage> {
             letterSpacing: -1,
             fontSize: 15,
           ),
-          tabs: const [
+          tabs: [
             GButton(
-              icon: Icons.rocket_launch,
-              iconActiveColor: Color(0xFF9E86FF),
+              textStyle: GoogleFonts.poppins(
+                color: const Color(0xFF9E86FF),
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.5,
+                fontSize: 15
+              ),
+              icon: Icons.rocket_launch_outlined,
+              iconActiveColor: const Color(0xFF9E86FF),
               text: 'Recents',
             ),
             GButton(
-              icon: Icons.chat_bubble,
-              iconActiveColor: Color(0xFF9E86FF),
+              icon: CupertinoIcons.chat_bubble_2,
+              iconActiveColor: const Color(0xFF9E86FF),
               text: 'SpaceBot',
+              textStyle: GoogleFonts.poppins(
+                  color: const Color(0xFF9E86FF),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: -0.5,
+                  fontSize: 15
+              ),
             ),
             GButton(
               icon: Icons.article_outlined,
-              iconActiveColor: Color(0xFF9E86FF),
+              iconActiveColor: const Color(0xFF9E86FF),
               text: 'News',
+              textStyle: GoogleFonts.poppins(
+                  color: const Color(0xFF9E86FF),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: -0.5,
+                  fontSize: 15
+              ),
             ),
           ],
           selectedIndex: _selectedIndex,
@@ -115,9 +133,9 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  color: Color(0xFF262626),
+                  color: const Color(0xFF262626),
                   padding:
-                      EdgeInsets.only(top: 65, left: 25, right: 25, bottom: 15),
+                      const EdgeInsets.only(top: 65, left: 25, right: 25, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,19 +143,73 @@ class _HomePageState extends State<HomePage> {
                       Text("app_name",
                           style: GoogleFonts.bebasNeue(
                               fontSize: 26, color: Colors.white)),
-                      Icon(
-                        CupertinoIcons.info,
-                        color: Colors.white,
-                        size: 25,
+                      GestureDetector(
+                        onTap: () {
+                          print(_apiService.fetchImageOfTheDay());
+
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(18.2),
+                                    color: const Color(0xFF191919),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 24),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text("Astronomical Pic of the Day", style: TextStyle(color: Colors.grey, fontSize: 20, letterSpacing: -1, fontWeight: FontWeight.w600)),
+                                            Icon(CupertinoIcons.multiply_circle_fill, size: 27, color: Color(0xFF333333),)
+                                          ],
+                                        ),
+                                      ),
+                                      FutureBuilder(
+                                          future: _apiService.fetchImageOfTheDay(),
+                                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                            // print("here - ${snapshot.data.name}");
+                                            return Container(
+                                              // color: Colors.black87,
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    height: 200,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(image: NetworkImage(snapshot.data.imageURL), fit: BoxFit.contain)
+                                                    ),
+                                                  ),
+                                                  Text(snapshot.data.name,
+                                                    style: const TextStyle(
+                                                      color: Colors.grey,
+                                                      fontWeight: FontWeight.w500,
+                                                      letterSpacing: -0.4,
+                                                      fontSize: 13,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                          );
+                        },
+                        child: const Icon(
+                          CupertinoIcons.sparkles,
+                          color: Color(0xFF9E86FF),
+                          size: 25,
+                        ),
                       )
                     ],
                   ),
                 ),
-                // SizedBox(height: MediaQuery.of(context).size.height * 0.09),
-                // ElevatedButton(
-                //   onPressed: _fetchLaunches,
-                //   child: const Text('Fetch Upcoming Launches'),
-                // ),
                 if (_loading)
                   const CircularProgressIndicator()
                 else if (_errorMessage.isNotEmpty)
@@ -145,12 +217,6 @@ class _HomePageState extends State<HomePage> {
                       style: const TextStyle(color: Colors.red))
                 else
                   Expanded(
-                    //   child: PageView.builder(
-                    //     itemCount: _launches.length,
-                    //     itemBuilder: (context, index) {
-                    //       return _launchComponent(_launches[index], context);
-                    //     },
-                    //   ),
                     child: RefreshIndicator(
                       onRefresh: () async {
                         _fetchLaunches();
@@ -201,7 +267,7 @@ Widget _launchComponent(data, context) {
       : 'No Agency Name';
 
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 12),
+    margin: const EdgeInsets.symmetric(horizontal: 12),
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     child: Container(
       padding: const EdgeInsets.only(left: 14, right: 14, top: 14, bottom: 18),
