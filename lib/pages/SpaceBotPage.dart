@@ -7,6 +7,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:image_picker/image_picker.dart';
 
+
 class SpaceBotPage extends StatefulWidget {
   const SpaceBotPage({Key? key}) : super(key: key);
 
