@@ -201,15 +201,13 @@ class _HomePageState extends State<HomePage> {
                                                           image: NetworkImage(
                                                               snapshot.data
                                                                   .imageURL),
-                                                          fit: BoxFit
-                                                              .contain)),
+                                                          fit: BoxFit.contain)),
                                                 ),
                                                 Text(
                                                   snapshot.data.name,
                                                   style: const TextStyle(
                                                     color: Colors.grey,
-                                                    fontWeight:
-                                                        FontWeight.w500,
+                                                    fontWeight: FontWeight.w500,
                                                     letterSpacing: -0.4,
                                                     fontSize: 13,
                                                   ),
