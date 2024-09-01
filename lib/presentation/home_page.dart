@@ -235,8 +235,7 @@ class _HomePageState extends State<HomePage> {
 
                         child: Lottie.network(
                             'https://lottie.host/98fbd742-394d-4f59-94ef-c905225922e1/S7okcKKw6m.json',
-                            width: 50,
-                            height: 30,
+                            height: 35,
                             fit: BoxFit.cover,
                             animate: true,
                             alignment: Alignment.topRight),
