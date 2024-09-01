@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:nasa_api_hello_world/models/apod_model.dart';
 
 import '../api_service.dart'; // Import the ApiService class
 import '../models/upcoming_launches_data_model.dart'; // Import the data models where data is stored
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                       ),
-                                      FutureBuilder(
+                                      FutureBuilder<APOD>(
                                           future:
                                               _apiService.fetchImageOfTheDay(),
                                           builder: (BuildContext context,
@@ -194,14 +195,12 @@ class _HomePageState extends State<HomePage> {
                                             }
                                             return Column(
                                               children: [
-                                                Container(
+                                                SizedBox(
                                                   height: 200,
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              snapshot.data
-                                                                  .imageURL),
-                                                          fit: BoxFit.contain)),
+                                                  child: Image.network(
+                                                    snapshot.data.imageURL,
+                                                    fit: BoxFit.contain,
+                                                  ),
                                                 ),
                                                 Text(
                                                   snapshot.data.name,
